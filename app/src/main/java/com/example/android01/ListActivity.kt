@@ -29,5 +29,11 @@ class ListActivity : AppCompatActivity(){
             }
         }
         listView.adapter = adapter
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }
