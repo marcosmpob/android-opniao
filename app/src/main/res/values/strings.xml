@@ -4,5 +4,7 @@
     <string name="form_review_name">Nome</string>
     <string name="form_button_name">Gravar</string>
     <string name="menu_list_reviews_label" />
+    <string name="item_list_edit">Modificar</string>
+    <string name="item_list_delete">Apagar</string>
 
 </resources>

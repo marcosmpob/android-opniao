@@ -1,22 +1,25 @@
 package com.example.android01.model.repository
 
+import android.content.Context
+import com.example.android01.infra.dao.ReviewDao
 import com.example.android01.model.Review
 import java.util.*
 
 
 class ReviewRepository{
-
-    private constructor()
-    companion object {
-        val instance : ReviewRepository = ReviewRepository()
+    private val reviewDao: ReviewDao
+    constructor(context: Context){
+        val reviewDatabase = ReviewDatabase.getInstance(context)
+        reviewDao = reviewDatabase.reviewDao()
     }
-
-    private val data = mutableListOf<Review>()
     fun save(name: String, review: String) {
-        data.add(Review(UUID.randomUUID().toString(), name, review));
+        reviewDao.save(Review(UUID.randomUUID().toString(), name, review))
+    }
+    fun listAll(): List<Review> {
+        return reviewDao.listAll()
     }
 
-    fun listAll(): List<Review> {
-        return data.toList()
+    fun delete(item: Review) {
+        reviewDao.delete(item)
     }
 }
