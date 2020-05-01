@@ -1,9 +1,6 @@
 package com.example.android01.infra.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.android01.model.Review
 
 
@@ -15,4 +12,6 @@ import com.example.android01.model.Review
         fun listAll():List<Review>
         @Delete
         fun delete(item: Review)
+        @Update
+        fun update(review: Review)
 }

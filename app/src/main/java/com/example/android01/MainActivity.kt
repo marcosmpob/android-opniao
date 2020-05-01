@@ -11,10 +11,10 @@ import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.android01.model.repository.ReviewRepository
-
+import com.example.android01.infra.dao.ReviewRepository
+import com.example.android01.model.Review
+//import com.example.android01.model.repository.ReviewRepository
 //package com.example.android01.model.repository
 
 class MainActivity : AppCompatActivity() {
@@ -31,26 +31,26 @@ class MainActivity : AppCompatActivity() {
         val textViewReview = findViewById<TextView>(R.id.input_review)
         val mainContainer = findViewById<ConstraintLayout>(R.id.main_container)
 
+        val reviewToEdit = (intent?.getSerializableExtra("item") as Review?)?.also { review ->
+            textViewName.text = review.name
+            textViewReview.text = review.review
+        }
+
 
         buttonSave.setOnClickListener {
-
             val name = textViewName.text
             val review = textViewReview.text
-
             object: AsyncTask<Void, Void, Unit>() {
                 override fun doInBackground(vararg params: Void?) {
                     val repository = ReviewRepository(this@MainActivity.applicationContext)
-                    repository.save(name.toString(), review.toString())
-                    startActivity(Intent(this@MainActivity, ListActivity::class.java))
+                    if(reviewToEdit == null){
+                        repository.save(name.toString(), review.toString())
+                        startActivity(Intent(this@MainActivity, ListActivity::class.java))
+                    }else{
+                        repository.update(reviewToEdit.id, name.toString(), review.toString())
+                        finish() }
                 }
             }.execute()
-
-
-            //Toast.makeText(this, "Nome:$name - Opinião:$review", Toast.LENGTH_LONG).show();
-
-            //ReviewRepository.instance.save(name.toString(), review.toString())
-
-            //startActivity(Intent(this, ListActivity::class.java))
         }
 
         mainContainer.setOnTouchListener { v, event ->

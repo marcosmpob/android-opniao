@@ -1,9 +1,10 @@
-package com.example.android01.model.repository
+package com.example.android01.infra.dao
+//package com.example.android01.model.repository
 
 import android.content.Context
-import com.example.android01.infra.dao.ReviewDao
 import com.example.android01.model.Review
 import java.util.*
+import com.example.android01.infra.dao.ReviewDao
 
 
 class ReviewRepository{
@@ -21,5 +22,9 @@ class ReviewRepository{
 
     fun delete(item: Review) {
         reviewDao.delete(item)
+    }
+
+    fun update(id: String, name: String, review: String) {
+        reviewDao.update(Review(id, name, review))
     }
 }

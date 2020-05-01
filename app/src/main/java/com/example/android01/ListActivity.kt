@@ -1,5 +1,4 @@
 package com.example.android01
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -10,8 +9,8 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import com.example.android01.infra.dao.ReviewRepository
 import com.example.android01.model.Review
-import com.example.android01.model.repository.ReviewRepository
 
 class ListActivity : AppCompatActivity(){
 
@@ -21,7 +20,8 @@ class ListActivity : AppCompatActivity(){
         object: AsyncTask<Void, Void, ArrayAdapter<Review>>() {
 
             override fun doInBackground(vararg params: Void?): ArrayAdapter<Review> {
-
+                val repo = ReviewRepository(this@ListActivity.applicationContext)
+                reviews = repo.listAll().toMutableList()
                 val adapter =  object : ArrayAdapter<Review>(this@ListActivity, -1, reviews ){
                     override fun getView(
                         position: Int,
@@ -50,8 +50,6 @@ class ListActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_review_layout)
-        val repo = ReviewRepository(this@ListActivity.applicationContext)
-        reviews = repo.listAll().toMutableList()
         this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val listView = findViewById<ListView>(R.id.list_recyclerview)
         initList(listView)
@@ -96,6 +94,21 @@ class ListActivity : AppCompatActivity(){
         intent.putExtra("item", item)
         startActivity(intent)
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        object : AsyncTask<Unit, Void, Unit>() {
+            override fun doInBackground(vararg params: Unit?) {
+                this@ListActivity.reviews = ReviewRepository(this@ListActivity.applicationContext).listAll() as MutableList<Review>
+            }
+            override fun onPostExecute(result: Unit?) {val listView = findViewById<ListView>(R.id.list_recyclerview)
+                val adapter = listView.adapter as ArrayAdapter<Review>
+                adapter.notifyDataSetChanged()
+            }
+        }.execute()
+    }
+
+
 
 
 
