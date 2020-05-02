@@ -12,9 +12,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.android01.infra.dao.ReviewRepository
 import com.example.android01.model.Review
-//import com.example.android01.model.repository.ReviewRepository
+import com.example.android01.model.repository.ReviewRepository
 //package com.example.android01.model.repository
 
 class MainActivity : AppCompatActivity() {
@@ -52,7 +51,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }.execute()
         }
-
         mainContainer.setOnTouchListener { v, event ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
@@ -71,6 +69,8 @@ class MainActivity : AppCompatActivity() {
             return true }
         return false
     }
+
+
 
 
 

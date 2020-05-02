@@ -9,8 +9,8 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import com.example.android01.infra.dao.ReviewRepository
 import com.example.android01.model.Review
+import com.example.android01.model.repository.ReviewRepository
 
 class ListActivity : AppCompatActivity(){
 
@@ -48,6 +48,8 @@ class ListActivity : AppCompatActivity(){
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_review_layout)
         this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
